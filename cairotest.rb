@@ -4,7 +4,17 @@ format = Cairo::FORMAT_ARGB32
 width = 300
 height = 200
 
-surface = Cairo::ImageSurface.new(format,width,height)
+if ARGV[0]==nil then
+	ExitStatus = 0
+	puts("Please set output filename.")
+	exit(0)
+end
+
+SVGfilename = ARGV[0]+".svg"
+
+puts(SVGfilename)
+
+surface = Cairo::SVGSurface.new(SVGfilename,width,height)
 context = Cairo::Context.new(surface)
 
 # 背景
@@ -19,4 +29,5 @@ context.fill do
 	context.stroke
 end
 
-context.target.write_to_png("cairotest.png")
+context.target.finish
+#context.target.write_to_png("cairotest.png")
